@@ -35,10 +35,20 @@ neobrutalism-lab/
 ├── registry/
 │   └── system-graph.json
 ├── scripts/
-│   └── validate-registry.mjs
+│   ├── run-node-tests.mjs
+│   ├── validate-registry.mjs
+│   ├── validate-registry.test.mjs
+│   ├── validate-boundaries.mjs
+│   └── validate-boundaries.test.mjs
+├── test/
+│   └── setup.ts
 ├── eslint.config.mjs
 ├── package.json
-└── tsconfig.base.json
+├── package-lock.json
+├── tsconfig.base.json
+├── tsconfig.build.json
+├── tsconfig.typecheck.json
+└── vitest.config.ts
 ```
 
 ## Ownership rules
@@ -53,6 +63,7 @@ neobrutalism-lab/
 - `apps`: specimen/product-specific state, content, routes and features.
 - `genesis`: generation request/candidate governance and provider adapters; never accepted UI source.
 - `registry`: machine-readable system graph; no implementation logic.
+- `scripts`: repository-governance and verification tooling; no product behavior.
 - `docs`: human-readable rationale/contracts/evidence.
 
 ## Dependency rule
@@ -61,4 +72,4 @@ A layer may import only from itself or layers to its left in:
 
 `contracts -> tokens -> interaction -> primitives -> patterns -> assemblies -> compositions -> apps`
 
-Genesis may import from `contracts` and `tokens` only.
+Genesis may import from `contracts` and `tokens` only. This rule is machine-enforced by `scripts/validate-boundaries.mjs` against package manifests and source imports.

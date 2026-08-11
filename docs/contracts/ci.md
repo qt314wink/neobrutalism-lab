@@ -13,7 +13,24 @@ Final order:
 2. install exactly from committed `package-lock.json` with `npm ci`;
 3. run `npm run validate`.
 
-`npm run validate` includes registry validation, lint, strict typecheck, Node tests, UI/governance tests, deterministic Genesis fixture validation, package build, and Storybook build.
+`npm run validate` includes:
+- system-registry validation;
+- real workspace manifest/source-import boundary validation;
+- lint;
+- strict typecheck;
+- dependency-free Node behavior/governance tests;
+- UI and Genesis Vitest suites;
+- deterministic Genesis fixture validation;
+- package build;
+- production Storybook build.
+
+## Architecture boundary gate
+
+`npm run boundaries:check` scans internal workspace dependencies and source imports. Standard layers may depend only on themselves or lower layers in:
+
+`contracts -> tokens -> interaction -> primitives -> patterns -> assemblies -> compositions -> apps`
+
+Genesis may depend internally only on `contracts` and `tokens`; runtime/UI packages may not depend on Genesis. Unknown internal package targets fail closed.
 
 ## Reproducibility gate
 

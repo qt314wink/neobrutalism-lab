@@ -4,14 +4,17 @@ A governed design-system and experimental web lab for turning Neo-Brutalist obse
 
 The repository is intentionally **system-first**. Product pages do not define the primitives. Proven primitives, patterns, assemblies, and compositions become the vocabulary product tracks are allowed to consume.
 
-## Current status
+## Foundation status
 
-Foundation boundary implemented on `foundation/governed-system-bootstrap`:
+The governed foundation is implemented on `foundation/governed-system-bootstrap` and reviewed through draft PR #3.
 
-- strict npm workspace and TypeScript contracts;
+Accepted capabilities:
+
+- strict npm workspace, lockfile, TypeScript and ESLint contracts;
 - machine-readable system relationship graph + validator;
+- machine-enforced one-way package/import boundaries;
 - semantic design tokens with a BOLD_CO dialect mapping;
-- deterministic physical-offset interaction state model;
+- deterministic physical-offset interaction model;
 - independently testable React primitives;
 - reusable patterns and assembly;
 - first domain-neutral editorial composition;
@@ -21,7 +24,7 @@ Foundation boundary implemented on `foundation/governed-system-bootstrap`:
 - OpenAI Responses provider adapter behind an injected, mock-tested boundary;
 - proposal-only materialization under `.genesis/proposals`.
 
-No BOLD_CO application reconstruction is included in this foundation branch. BOLD_CO is the first downstream product track after the foundation merge gate is complete.
+No BOLD_CO application reconstruction is included in this foundation branch. BOLD_CO is the first downstream product track after review/merge.
 
 ## Architecture
 
@@ -79,9 +82,9 @@ problem + pain point
 
 ## Package responsibilities
 
-| Package | Responsibility | Current accepted capabilities |
+| Package | Responsibility | Accepted capabilities |
 | --- | --- | --- |
-| `@neobrutalism-lab/contracts` | Shared evidence, graph, receipt and relation contracts | relationship vocabulary; system/evidence types |
+| `@neobrutalism-lab/contracts` | Evidence, graph, receipt and relation contracts | relationship vocabulary; system/evidence types |
 | `@neobrutalism-lab/tokens` | Semantic values independent from product hues | semantic roles, spacing, borders, hard-shadow depth, motion, type scale, BOLD_CO dialect |
 | `@neobrutalism-lab/interaction` | Pure deterministic behavior | rest/hover/focus/pressed/selected/disabled physical-offset resolver |
 | `@neobrutalism-lab/primitives` | Smallest accessible React surfaces/controls | `Surface`, `PhysicalButton`, `SignalBadge` |
@@ -89,6 +92,16 @@ problem + pain point
 | `@neobrutalism-lab/assemblies` | Coordinated groups of patterns | `MetricCluster` |
 | `@neobrutalism-lab/compositions` | Domain-neutral page/section recipes | `EditorialHero` |
 | `@neobrutalism-lab/genesis` | Governed candidate generation + policy | strict schemas, validator, provider adapter, proposal writer, CLI |
+
+## Architecture boundaries
+
+The dependency rule is executable, not just documentation:
+
+```bash
+npm run boundaries:check
+```
+
+The validator scans workspace manifests and real source imports. Standard UI layers may consume only themselves or lower layers. `genesis` may consume only `contracts` and `tokens`; UI/runtime packages may not consume `genesis`. Unknown internal packages and upward imports fail validation with file/package evidence.
 
 ## Interaction contract
 
@@ -144,9 +157,7 @@ The validator fails on duplicate node IDs, duplicate edge IDs, unknown relations
 npm run storybook
 ```
 
-Stories are not decorative screenshots. They expose normal, edge, and stress states so an isolate can be evaluated before it is allowed into a larger composition.
-
-Current stories include:
+Stories are executable isolation evidence, not decorative screenshots. Current stories cover:
 
 - `PhysicalButton`: rest, hover, focus, pressed, selected, disabled, deep offset;
 - `Surface`: semantic tones, depth, flat mode;
@@ -162,9 +173,9 @@ Genesis is a **proposal compiler**, not an autonomous committer.
 
 A request must state a concrete design/engineering problem, pain point, target artifact, evidence-backed observations, hard constraints, measurable benchmarks, allowed dependencies, and allowed write roots.
 
-A candidate must return at least two alternatives plus concise decision rationale summaries tied to observation IDs. Those rationale summaries are inspectable decision records—not hidden chain-of-thought and not substitutes for evidence.
+A candidate must return at least two alternatives plus concise decision rationale summaries tied to observation IDs. Those summaries are inspectable decision records—not hidden chain-of-thought and not substitutes for evidence.
 
-The deterministic validator then checks:
+The deterministic validator checks:
 
 - strict request/candidate schemas;
 - exact problem and pain-point context retention;
@@ -184,7 +195,7 @@ npm run genesis:fixture
 
 ### Provider call
 
-Create a request JSON matching `packages/genesis/fixtures/request.valid.json`, then set server-side credentials:
+Create a request JSON matching `packages/genesis/fixtures/request.valid.json`, then provide server-side credentials:
 
 ```bash
 export OPENAI_API_KEY=...
@@ -209,6 +220,7 @@ Nothing in this path directly writes into `packages/` or `apps/`.
 ```bash
 npm ci
 npm run registry:check
+npm run boundaries:check
 npm run lint
 npm run typecheck
 npm run test
@@ -219,7 +231,19 @@ npm run storybook:build
 npm run validate
 ```
 
-`npm run validate` is the merge-equivalent local gate.
+`npm run validate` is the merge-equivalent gate.
+
+## Verified foundation evidence
+
+The clean PR validation run recorded in `docs/governance/foundation-verification.md` proves:
+
+- immutable `npm ci` install;
+- `registry:ok` and `boundaries:ok`;
+- 17/17 Node behavior/governance tests;
+- 18/18 Vitest component/Genesis tests;
+- accepted deterministic Genesis fixture receipt;
+- TypeScript package build;
+- production Storybook build.
 
 ## Repository contracts
 
@@ -231,6 +255,7 @@ Read these before adding a new layer or bypassing an existing one:
 - `docs/contracts/scripts.md`
 - `docs/contracts/ci.md`
 - `docs/governance/genesis.md`
+- `docs/governance/foundation-verification.md`
 - `docs/superpowers/specs/2026-08-11-governed-system-foundation-design.md`
 - `docs/superpowers/plans/2026-08-11-governed-system-foundation.md`
 

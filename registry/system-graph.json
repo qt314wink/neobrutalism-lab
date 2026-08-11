@@ -36,7 +36,10 @@
     {"id":"mechanism:genesis-responses-adapter","kind":"mechanism","layer":"governance","status":"accepted","label":"Structured Responses candidate adapter"},
     {"id":"mechanism:genesis-proposal-writer","kind":"mechanism","layer":"governance","status":"accepted","label":"Isolated proposal-only materializer"},
     {"id":"test:genesis-governance","kind":"test","layer":"governance","status":"accepted","label":"Genesis schema and policy gate tests"},
-    {"id":"test:genesis-provider","kind":"test","layer":"governance","status":"accepted","label":"Genesis provider and materialization tests"}
+    {"id":"test:genesis-provider","kind":"test","layer":"governance","status":"accepted","label":"Genesis provider and materialization tests"},
+    {"id":"constraint:one-way-layering","kind":"constraint","layer":"governance","status":"accepted","label":"Internal dependencies may only flow toward same or lower UI layers; Genesis is isolated"},
+    {"id":"mechanism:boundary-validator","kind":"mechanism","layer":"governance","status":"accepted","label":"Workspace manifest and source-import architecture boundary validator"},
+    {"id":"test:boundary-validator","kind":"test","layer":"governance","status":"accepted","label":"Architecture boundary validator contract tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -88,6 +91,8 @@
     {"id":"edge:genesis-package-writer","from":"package:genesis","to":"mechanism:genesis-proposal-writer","kind":"implements"},
     {"id":"edge:genesis-validator-test","from":"mechanism:genesis-validator","to":"test:genesis-governance","kind":"validated_by"},
     {"id":"edge:genesis-adapter-test","from":"mechanism:genesis-responses-adapter","to":"test:genesis-provider","kind":"validated_by"},
-    {"id":"edge:genesis-writer-test","from":"mechanism:genesis-proposal-writer","to":"test:genesis-provider","kind":"validated_by"}
+    {"id":"edge:genesis-writer-test","from":"mechanism:genesis-proposal-writer","to":"test:genesis-provider","kind":"validated_by"},
+    {"id":"edge:boundary-constraint","from":"mechanism:boundary-validator","to":"constraint:one-way-layering","kind":"constrained_by"},
+    {"id":"edge:boundary-test","from":"mechanism:boundary-validator","to":"test:boundary-validator","kind":"validated_by"}
   ]
 }
