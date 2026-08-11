@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["packages/**/*.ts", "packages/**/*.tsx", ".storybook/**/*.ts"]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", ".storybook/**/*.ts", "test/**/*.ts", "vitest.config.ts"]
 }
