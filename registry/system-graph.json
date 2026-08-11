@@ -19,7 +19,13 @@
     {"id":"package:patterns","kind":"package","layer":"patterns","status":"accepted"},
     {"id":"package:assemblies","kind":"package","layer":"assemblies","status":"accepted"},
     {"id":"package:compositions","kind":"package","layer":"compositions","status":"accepted"},
-    {"id":"package:genesis","kind":"package","layer":"governance","status":"accepted"}
+    {"id":"package:genesis","kind":"package","layer":"governance","status":"accepted"},
+    {"id":"observation:semantic-role-separation","kind":"observation","layer":"tokens","status":"accepted","label":"Semantic role is reusable; hue is dialect-specific"},
+    {"id":"token:semantic-color-role","kind":"token","layer":"tokens","status":"accepted","label":"Semantic color roles"},
+    {"id":"token:bold-co-dialect","kind":"token","layer":"tokens","status":"accepted","label":"BOLD_CO chromatic dialect"},
+    {"id":"token:shadow-depth","kind":"token","layer":"tokens","status":"accepted","label":"Hard-shadow depth scale"},
+    {"id":"test:contracts-relations","kind":"test","layer":"contracts","status":"accepted","label":"Relationship vocabulary test"},
+    {"id":"test:semantic-tokens","kind":"test","layer":"tokens","status":"accepted","label":"Semantic token tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -29,6 +35,11 @@
     {"id":"edge:assemblies-patterns","from":"package:assemblies","to":"package:patterns","kind":"depends_on"},
     {"id":"edge:compositions-assemblies","from":"package:compositions","to":"package:assemblies","kind":"depends_on"},
     {"id":"edge:genesis-contracts","from":"package:genesis","to":"package:contracts","kind":"depends_on"},
-    {"id":"edge:genesis-tokens","from":"package:genesis","to":"package:tokens","kind":"depends_on"}
+    {"id":"edge:genesis-tokens","from":"package:genesis","to":"package:tokens","kind":"depends_on"},
+    {"id":"edge:semantic-role-observation","from":"token:semantic-color-role","to":"observation:semantic-role-separation","kind":"derived_from"},
+    {"id":"edge:bold-dialect-role","from":"token:bold-co-dialect","to":"token:semantic-color-role","kind":"implements"},
+    {"id":"edge:contracts-test","from":"package:contracts","to":"test:contracts-relations","kind":"validated_by"},
+    {"id":"edge:color-token-test","from":"token:semantic-color-role","to":"test:semantic-tokens","kind":"validated_by"},
+    {"id":"edge:shadow-token-test","from":"token:shadow-depth","to":"test:semantic-tokens","kind":"validated_by"}
   ]
 }
