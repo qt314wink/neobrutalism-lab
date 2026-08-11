@@ -1,16 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "relationKinds": [
-    "depends_on",
-    "derived_from",
-    "implements",
-    "uses_token",
-    "composes",
-    "validated_by",
-    "constrained_by",
-    "optimizes",
-    "alternative_to"
-  ],
+  "relationKinds": ["depends_on","derived_from","implements","uses_token","composes","validated_by","constrained_by","optimizes","alternative_to"],
   "nodes": [
     {"id":"package:contracts","kind":"package","layer":"contracts","status":"accepted"},
     {"id":"package:tokens","kind":"package","layer":"tokens","status":"accepted"},
@@ -25,7 +15,10 @@
     {"id":"token:bold-co-dialect","kind":"token","layer":"tokens","status":"accepted","label":"BOLD_CO chromatic dialect"},
     {"id":"token:shadow-depth","kind":"token","layer":"tokens","status":"accepted","label":"Hard-shadow depth scale"},
     {"id":"test:contracts-relations","kind":"test","layer":"contracts","status":"accepted","label":"Relationship vocabulary test"},
-    {"id":"test:semantic-tokens","kind":"test","layer":"tokens","status":"accepted","label":"Semantic token tests"}
+    {"id":"test:semantic-tokens","kind":"test","layer":"tokens","status":"accepted","label":"Semantic token tests"},
+    {"id":"observation:physical-offset-causality","kind":"observation","layer":"interaction","status":"accepted","label":"Translation must remain coupled to visible shadow depth"},
+    {"id":"mechanism:physical-offset","kind":"mechanism","layer":"interaction","status":"accepted","label":"Physical offset interaction state model"},
+    {"id":"test:physical-offset","kind":"test","layer":"interaction","status":"accepted","label":"Physical offset state tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -40,6 +33,10 @@
     {"id":"edge:bold-dialect-role","from":"token:bold-co-dialect","to":"token:semantic-color-role","kind":"implements"},
     {"id":"edge:contracts-test","from":"package:contracts","to":"test:contracts-relations","kind":"validated_by"},
     {"id":"edge:color-token-test","from":"token:semantic-color-role","to":"test:semantic-tokens","kind":"validated_by"},
-    {"id":"edge:shadow-token-test","from":"token:shadow-depth","to":"test:semantic-tokens","kind":"validated_by"}
+    {"id":"edge:shadow-token-test","from":"token:shadow-depth","to":"test:semantic-tokens","kind":"validated_by"},
+    {"id":"edge:physical-derived","from":"mechanism:physical-offset","to":"observation:physical-offset-causality","kind":"derived_from"},
+    {"id":"edge:physical-shadow-token","from":"mechanism:physical-offset","to":"token:shadow-depth","kind":"uses_token"},
+    {"id":"edge:interaction-implements-physical","from":"package:interaction","to":"mechanism:physical-offset","kind":"implements"},
+    {"id":"edge:physical-test","from":"mechanism:physical-offset","to":"test:physical-offset","kind":"validated_by"}
   ]
 }
