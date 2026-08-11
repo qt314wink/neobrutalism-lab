@@ -1,0 +1,12 @@
+{
+  "name": "neobrutalism-lab",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "lint": "npm run lint --workspace @neobrutalism-lab/bold-co",
+    "typecheck": "npm run typecheck --workspace @neobrutalism-lab/bold-co",
+    "test": "npm run test --workspace @neobrutalism-lab/bold-co",
+    "build": "npm run build --workspace @neobrutalism-lab/bold-co",
+    "validate": "npm run lint && npm run typecheck && npm run test && npm run build"
+  }
+}
