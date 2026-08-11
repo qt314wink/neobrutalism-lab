@@ -18,7 +18,11 @@
     {"id":"test:semantic-tokens","kind":"test","layer":"tokens","status":"accepted","label":"Semantic token tests"},
     {"id":"observation:physical-offset-causality","kind":"observation","layer":"interaction","status":"accepted","label":"Translation must remain coupled to visible shadow depth"},
     {"id":"mechanism:physical-offset","kind":"mechanism","layer":"interaction","status":"accepted","label":"Physical offset interaction state model"},
-    {"id":"test:physical-offset","kind":"test","layer":"interaction","status":"accepted","label":"Physical offset state tests"}
+    {"id":"test:physical-offset","kind":"test","layer":"interaction","status":"accepted","label":"Physical offset state tests"},
+    {"id":"primitive:surface","kind":"primitive","layer":"primitives","status":"accepted","label":"Semantic hard-edged surface"},
+    {"id":"primitive:physical-button","kind":"primitive","layer":"primitives","status":"accepted","label":"Physical offset native button"},
+    {"id":"primitive:signal-badge","kind":"primitive","layer":"primitives","status":"accepted","label":"Semantic status badge"},
+    {"id":"test:primitives","kind":"test","layer":"primitives","status":"accepted","label":"Primitive accessibility and state contract tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -37,6 +41,17 @@
     {"id":"edge:physical-derived","from":"mechanism:physical-offset","to":"observation:physical-offset-causality","kind":"derived_from"},
     {"id":"edge:physical-shadow-token","from":"mechanism:physical-offset","to":"token:shadow-depth","kind":"uses_token"},
     {"id":"edge:interaction-implements-physical","from":"package:interaction","to":"mechanism:physical-offset","kind":"implements"},
-    {"id":"edge:physical-test","from":"mechanism:physical-offset","to":"test:physical-offset","kind":"validated_by"}
+    {"id":"edge:physical-test","from":"mechanism:physical-offset","to":"test:physical-offset","kind":"validated_by"},
+    {"id":"edge:primitives-surface","from":"package:primitives","to":"primitive:surface","kind":"implements"},
+    {"id":"edge:primitives-button","from":"package:primitives","to":"primitive:physical-button","kind":"implements"},
+    {"id":"edge:primitives-badge","from":"package:primitives","to":"primitive:signal-badge","kind":"implements"},
+    {"id":"edge:button-physical","from":"primitive:physical-button","to":"mechanism:physical-offset","kind":"implements"},
+    {"id":"edge:button-shadow","from":"primitive:physical-button","to":"token:shadow-depth","kind":"uses_token"},
+    {"id":"edge:button-color","from":"primitive:physical-button","to":"token:semantic-color-role","kind":"uses_token"},
+    {"id":"edge:surface-color","from":"primitive:surface","to":"token:semantic-color-role","kind":"uses_token"},
+    {"id":"edge:badge-color","from":"primitive:signal-badge","to":"token:semantic-color-role","kind":"uses_token"},
+    {"id":"edge:button-test","from":"primitive:physical-button","to":"test:primitives","kind":"validated_by"},
+    {"id":"edge:surface-test","from":"primitive:surface","to":"test:primitives","kind":"validated_by"},
+    {"id":"edge:badge-test","from":"primitive:signal-badge","to":"test:primitives","kind":"validated_by"}
   ]
 }

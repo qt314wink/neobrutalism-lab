@@ -1,0 +1,105 @@
+@import '@neobrutalism-lab/tokens/tokens.css';
+
+.nb-physical-button,
+.nb-surface,
+.nb-signal-badge {
+  --nb-tone: var(--nb-color-paper);
+  color: var(--nb-color-ink);
+  font: inherit;
+}
+
+[data-nb-tone='paper'] { --nb-tone: var(--nb-color-paper); }
+[data-nb-tone='action'] { --nb-tone: var(--nb-color-action); }
+[data-nb-tone='info'] { --nb-tone: var(--nb-color-info); }
+[data-nb-tone='attention'] { --nb-tone: var(--nb-color-attention); }
+[data-nb-tone='identity'] { --nb-tone: var(--nb-color-identity); }
+[data-nb-tone='critical'] { --nb-tone: var(--nb-color-critical); }
+[data-nb-tone='ink'] { --nb-tone: var(--nb-color-ink); color: var(--nb-color-paper); }
+
+[data-nb-depth='2'] { --nb-depth: 2px; }
+[data-nb-depth='4'] { --nb-depth: 4px; }
+[data-nb-depth='8'] { --nb-depth: 8px; }
+
+.nb-physical-button {
+  --nb-depth: var(--nb-shadow-base);
+  appearance: none;
+  border: var(--nb-border-structural) solid var(--nb-color-ink);
+  background: var(--nb-tone);
+  box-shadow: var(--nb-depth) var(--nb-depth) 0 var(--nb-shadow-ink);
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+  font-weight: 800;
+  transform: translate(0, 0);
+  transition:
+    transform var(--nb-motion-shove) ease-out,
+    box-shadow var(--nb-motion-shove) ease-out;
+}
+
+.nb-physical-button:is(:hover, [data-nb-state='hover']):not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--nb-depth) + 2px) calc(var(--nb-depth) + 2px) 0 var(--nb-shadow-ink);
+}
+
+.nb-physical-button:is(:focus-visible, [data-nb-state='focus']):not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--nb-depth) + 2px) calc(var(--nb-depth) + 2px) 0 var(--nb-shadow-ink);
+  outline: var(--nb-border-emphasis) solid var(--nb-color-ink);
+  outline-offset: 3px;
+}
+
+.nb-physical-button:is(:active, [data-nb-state='pressed']):not(:disabled) {
+  transform: translate(var(--nb-depth), var(--nb-depth));
+  box-shadow: 0 0 0 var(--nb-shadow-ink);
+}
+
+.nb-physical-button[aria-pressed='true'] {
+  outline: var(--nb-border-control) dashed var(--nb-color-ink);
+  outline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.nb-physical-button:disabled,
+.nb-physical-button[data-nb-state='disabled'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: 2px 2px 0 var(--nb-shadow-ink);
+  transition: none;
+}
+
+.nb-surface {
+  --nb-depth: var(--nb-shadow-base);
+  background: var(--nb-tone);
+  box-shadow: var(--nb-depth) var(--nb-depth) 0 var(--nb-shadow-ink);
+  padding: 1rem;
+}
+
+.nb-surface[data-nb-outlined='true'] {
+  border: var(--nb-border-structural) solid var(--nb-color-ink);
+}
+
+.nb-surface[data-nb-outlined='false'] {
+  border: 0;
+  box-shadow: none;
+}
+
+.nb-signal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: var(--nb-border-control) solid var(--nb-color-ink);
+  background: var(--nb-tone);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-physical-button {
+    transition: none;
+  }
+}
