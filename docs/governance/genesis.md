@@ -33,21 +33,24 @@ Decision records are concise, inspectable rationale summaries. They are not hidd
 
 A candidate is invalid if:
 - the problem/pain point is not referenced;
-- any write path escapes an allowed proposal root;
+- any write path escapes an allowed proposal root or contains an unsafe path form;
 - tests are missing;
 - alternatives are missing;
-- a constraint or benchmark lacks a QA mapping;
+- a constraint or benchmark lacks both test and QA mappings;
 - a decision lacks an observation reference;
 - a dependency is not allowed;
-- a relationship uses an unknown relation kind;
+- a relationship uses an unknown relation kind or unresolved endpoint;
 - direct source mutation is requested.
+
+For a schema-valid candidate, validation also computes a canonical SHA-256 candidate digest and stores it as the receipt `subjectDigest`. A proposal may materialize only when the current candidate digest still matches that accepted receipt. This prevents an accepted receipt from being reused after candidate mutation.
 
 ## Promotion
 
 1. Generate candidate to `.genesis/proposals/<candidate-id>/`.
 2. Validate schema and policy.
-3. Materialize only in an isolated branch/worktree.
-4. Run candidate tests plus repository `npm run validate`.
-5. Produce a receipt recording command results and changed graph edges.
-6. Human reviews candidate, alternatives, evidence and diff.
-7. Only then may selected files be promoted into accepted package/app paths.
+3. Bind the accepted receipt to the exact candidate digest.
+4. Materialize only inside the isolated proposal root and verify the digest again at the write boundary.
+5. Run candidate tests plus repository `npm run validate` in an isolated branch/worktree.
+6. Produce a receipt recording command results and changed graph edges.
+7. Human reviews candidate, alternatives, evidence and diff.
+8. Only then may selected files be promoted into accepted package/app paths.

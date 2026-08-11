@@ -22,6 +22,7 @@ Accepted capabilities:
 - governed Genesis request/candidate schemas;
 - deterministic Genesis policy gates;
 - OpenAI Responses provider adapter behind an injected, mock-tested boundary;
+- SHA-256 binding between accepted Genesis receipts and the exact candidate they validated;
 - proposal-only materialization under `.genesis/proposals`.
 
 No BOLD_CO application reconstruction is included in this foundation branch. BOLD_CO is the first downstream product track after review/merge.
@@ -74,6 +75,7 @@ problem + pain point
   → schema validation
   → deterministic policy gates
   → test + QA coverage receipt
+  → candidate digest binding
   → proposal-only materialization
   → isolated repository validation
   → human review
@@ -84,14 +86,14 @@ problem + pain point
 
 | Package | Responsibility | Accepted capabilities |
 | --- | --- | --- |
-| `@neobrutalism-lab/contracts` | Evidence, graph, receipt and relation contracts | relationship vocabulary; system/evidence types |
+| `@neobrutalism-lab/contracts` | Evidence, graph, receipt and relation contracts | relationship vocabulary; system/evidence types; optional receipt subject digest |
 | `@neobrutalism-lab/tokens` | Semantic values independent from product hues | semantic roles, spacing, borders, hard-shadow depth, motion, type scale, BOLD_CO dialect |
 | `@neobrutalism-lab/interaction` | Pure deterministic behavior | rest/hover/focus/pressed/selected/disabled physical-offset resolver |
 | `@neobrutalism-lab/primitives` | Smallest accessible React surfaces/controls | `Surface`, `PhysicalButton`, `SignalBadge` |
 | `@neobrutalism-lab/patterns` | Reusable visual/behavioral motifs | `StickerLabel`, `MetricSlab` |
 | `@neobrutalism-lab/assemblies` | Coordinated groups of patterns | `MetricCluster` |
 | `@neobrutalism-lab/compositions` | Domain-neutral page/section recipes | `EditorialHero` |
-| `@neobrutalism-lab/genesis` | Governed candidate generation + policy | strict schemas, validator, provider adapter, proposal writer, CLI |
+| `@neobrutalism-lab/genesis` | Governed candidate generation + policy | strict schemas, validator, candidate digest, provider adapter, proposal writer, CLI |
 
 ## Architecture boundaries
 
@@ -116,7 +118,7 @@ For physical-offset interactions, translation and visible depth remain coupled:
 - **rest**: zero translation, full hard shadow;
 - **hover/focus**: small negative lift, larger apparent depth;
 - **pressed**: translate by the declared physical depth, collapse the hard shadow;
-- **selected**: persistent semantic selection independent from hover;
+- **selected**: persistent semantic selection independent from hover and synchronized when selection props change after mount;
 - **disabled**: no motion, reduced emphasis, non-color disabled cues;
 - **reduced motion**: semantic states remain, nonessential transition duration becomes zero.
 
@@ -180,12 +182,14 @@ The deterministic validator checks:
 - strict request/candidate schemas;
 - exact problem and pain-point context retention;
 - proposal-only write mode;
-- target path containment;
+- target path containment, including traversal/NUL rejection;
 - declared dependency boundaries;
 - observation and alternative references;
 - test coverage for every constraint and benchmark;
 - QA coverage for every constraint and benchmark;
 - graph relationship endpoint validity.
+
+When a candidate passes, its receipt records a canonical SHA-256 `subjectDigest`. Proposal materialization recomputes the candidate digest and rejects stale or altered candidates even if an earlier receipt was accepted.
 
 ### Fixture validation — no API call
 
@@ -240,8 +244,9 @@ The clean PR validation run recorded in `docs/governance/foundation-verification
 - immutable `npm ci` install;
 - `registry:ok` and `boundaries:ok`;
 - 17/17 Node behavior/governance tests;
-- 18/18 Vitest component/Genesis tests;
-- accepted deterministic Genesis fixture receipt;
+- 21/21 Vitest component/Genesis tests;
+- **38/38 executable tests total**;
+- accepted deterministic Genesis fixture receipt with a candidate SHA-256 digest;
 - TypeScript package build;
 - production Storybook build.
 
