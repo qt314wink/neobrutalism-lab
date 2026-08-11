@@ -25,11 +25,18 @@
     {"id":"test:primitives","kind":"test","layer":"primitives","status":"accepted","label":"Primitive accessibility and state contract tests"},
     {"id":"observation:interruption-label","kind":"observation","layer":"patterns","status":"accepted","label":"Small rotated labels create bounded visual interruption without changing document hierarchy"},
     {"id":"observation:metric-repetition","kind":"observation","layer":"patterns","status":"accepted","label":"Repeated metrics need stable identity before they can form a responsive cluster"},
-    {"id":"pattern:sticker-label","kind":"pattern","layer":"patterns","status":"candidate","label":"Sticker label interruption"},
-    {"id":"pattern:metric-slab","kind":"pattern","layer":"patterns","status":"candidate","label":"Metric slab"},
-    {"id":"assembly:metric-cluster","kind":"assembly","layer":"assemblies","status":"candidate","label":"Responsive metric cluster"},
-    {"id":"composition:editorial-hero","kind":"composition","layer":"compositions","status":"candidate","label":"Slot-driven editorial hero"},
-    {"id":"test:composition-stack","kind":"test","layer":"compositions","status":"candidate","label":"Pattern to composition stack tests"}
+    {"id":"pattern:sticker-label","kind":"pattern","layer":"patterns","status":"accepted","label":"Sticker label interruption"},
+    {"id":"pattern:metric-slab","kind":"pattern","layer":"patterns","status":"accepted","label":"Metric slab"},
+    {"id":"assembly:metric-cluster","kind":"assembly","layer":"assemblies","status":"accepted","label":"Responsive metric cluster"},
+    {"id":"composition:editorial-hero","kind":"composition","layer":"compositions","status":"accepted","label":"Slot-driven editorial hero"},
+    {"id":"test:composition-stack","kind":"test","layer":"compositions","status":"accepted","label":"Pattern to composition stack tests"},
+    {"id":"observation:genesis-proposal-separation","kind":"observation","layer":"governance","status":"accepted","label":"Generated artifacts must remain proposals until deterministic and human gates pass"},
+    {"id":"constraint:genesis-proposal-only","kind":"constraint","layer":"governance","status":"accepted","label":"Genesis cannot directly mutate accepted source"},
+    {"id":"mechanism:genesis-validator","kind":"mechanism","layer":"governance","status":"accepted","label":"Deterministic Genesis policy validator"},
+    {"id":"mechanism:genesis-responses-adapter","kind":"mechanism","layer":"governance","status":"accepted","label":"Structured Responses candidate adapter"},
+    {"id":"mechanism:genesis-proposal-writer","kind":"mechanism","layer":"governance","status":"accepted","label":"Isolated proposal-only materializer"},
+    {"id":"test:genesis-governance","kind":"test","layer":"governance","status":"accepted","label":"Genesis schema and policy gate tests"},
+    {"id":"test:genesis-provider","kind":"test","layer":"governance","status":"accepted","label":"Genesis provider and materialization tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -71,6 +78,16 @@
     {"id":"edge:sticker-color","from":"pattern:sticker-label","to":"token:semantic-color-role","kind":"uses_token"},
     {"id":"edge:composition-test","from":"composition:editorial-hero","to":"test:composition-stack","kind":"validated_by"},
     {"id":"edge:cluster-test","from":"assembly:metric-cluster","to":"test:composition-stack","kind":"validated_by"},
-    {"id":"edge:patterns-test","from":"pattern:metric-slab","to":"test:composition-stack","kind":"validated_by"}
+    {"id":"edge:patterns-test","from":"pattern:metric-slab","to":"test:composition-stack","kind":"validated_by"},
+    {"id":"edge:genesis-validator-observation","from":"mechanism:genesis-validator","to":"observation:genesis-proposal-separation","kind":"derived_from"},
+    {"id":"edge:genesis-validator-constraint","from":"mechanism:genesis-validator","to":"constraint:genesis-proposal-only","kind":"constrained_by"},
+    {"id":"edge:genesis-adapter-constraint","from":"mechanism:genesis-responses-adapter","to":"constraint:genesis-proposal-only","kind":"constrained_by"},
+    {"id":"edge:genesis-writer-constraint","from":"mechanism:genesis-proposal-writer","to":"constraint:genesis-proposal-only","kind":"constrained_by"},
+    {"id":"edge:genesis-package-validator","from":"package:genesis","to":"mechanism:genesis-validator","kind":"implements"},
+    {"id":"edge:genesis-package-adapter","from":"package:genesis","to":"mechanism:genesis-responses-adapter","kind":"implements"},
+    {"id":"edge:genesis-package-writer","from":"package:genesis","to":"mechanism:genesis-proposal-writer","kind":"implements"},
+    {"id":"edge:genesis-validator-test","from":"mechanism:genesis-validator","to":"test:genesis-governance","kind":"validated_by"},
+    {"id":"edge:genesis-adapter-test","from":"mechanism:genesis-responses-adapter","to":"test:genesis-provider","kind":"validated_by"},
+    {"id":"edge:genesis-writer-test","from":"mechanism:genesis-proposal-writer","to":"test:genesis-provider","kind":"validated_by"}
   ]
 }

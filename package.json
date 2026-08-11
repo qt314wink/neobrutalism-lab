@@ -11,14 +11,14 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
     "test": "npm run test:node && npm run test:ui",
+    "test:node": "node scripts/run-node-tests.mjs",
+    "test:ui": "vitest run",
     "build": "tsc -p tsconfig.build.json",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "genesis:fixture": "tsx packages/genesis/src/fixture-cli.ts",
     "genesis": "tsx packages/genesis/src/cli.ts",
-    "validate": "npm run registry:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run storybook:build",
-    "test:node": "node scripts/run-node-tests.mjs",
-    "test:ui": "vitest run"
+    "validate": "npm run registry:check && npm run lint && npm run typecheck && npm run test && npm run genesis:fixture && npm run build && npm run storybook:build"
   },
   "dependencies": { "openai": "7.1.0", "react": "19.2.7", "react-dom": "19.2.7", "zod": "4.4.3" },
   "devDependencies": {

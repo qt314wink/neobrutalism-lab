@@ -12,13 +12,19 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: package.json
-      - name: Install dependencies (bootstrap only)
+          package-manager-cache: false
+      - name: Install dependencies (lockfile bootstrap only)
         run: npm install --no-audit --no-fund
+      - name: Export bootstrap lockfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-lock-bootstrap
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 1
       - name: Validate
         run: npm run validate
