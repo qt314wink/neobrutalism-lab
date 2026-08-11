@@ -22,7 +22,14 @@
     {"id":"primitive:surface","kind":"primitive","layer":"primitives","status":"accepted","label":"Semantic hard-edged surface"},
     {"id":"primitive:physical-button","kind":"primitive","layer":"primitives","status":"accepted","label":"Physical offset native button"},
     {"id":"primitive:signal-badge","kind":"primitive","layer":"primitives","status":"accepted","label":"Semantic status badge"},
-    {"id":"test:primitives","kind":"test","layer":"primitives","status":"accepted","label":"Primitive accessibility and state contract tests"}
+    {"id":"test:primitives","kind":"test","layer":"primitives","status":"accepted","label":"Primitive accessibility and state contract tests"},
+    {"id":"observation:interruption-label","kind":"observation","layer":"patterns","status":"accepted","label":"Small rotated labels create bounded visual interruption without changing document hierarchy"},
+    {"id":"observation:metric-repetition","kind":"observation","layer":"patterns","status":"accepted","label":"Repeated metrics need stable identity before they can form a responsive cluster"},
+    {"id":"pattern:sticker-label","kind":"pattern","layer":"patterns","status":"candidate","label":"Sticker label interruption"},
+    {"id":"pattern:metric-slab","kind":"pattern","layer":"patterns","status":"candidate","label":"Metric slab"},
+    {"id":"assembly:metric-cluster","kind":"assembly","layer":"assemblies","status":"candidate","label":"Responsive metric cluster"},
+    {"id":"composition:editorial-hero","kind":"composition","layer":"compositions","status":"candidate","label":"Slot-driven editorial hero"},
+    {"id":"test:composition-stack","kind":"test","layer":"compositions","status":"candidate","label":"Pattern to composition stack tests"}
   ],
   "edges": [
     {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
@@ -52,6 +59,18 @@
     {"id":"edge:badge-color","from":"primitive:signal-badge","to":"token:semantic-color-role","kind":"uses_token"},
     {"id":"edge:button-test","from":"primitive:physical-button","to":"test:primitives","kind":"validated_by"},
     {"id":"edge:surface-test","from":"primitive:surface","to":"test:primitives","kind":"validated_by"},
-    {"id":"edge:badge-test","from":"primitive:signal-badge","to":"test:primitives","kind":"validated_by"}
+    {"id":"edge:badge-test","from":"primitive:signal-badge","to":"test:primitives","kind":"validated_by"},
+    {"id":"edge:sticker-observation","from":"pattern:sticker-label","to":"observation:interruption-label","kind":"derived_from"},
+    {"id":"edge:metric-observation","from":"pattern:metric-slab","to":"observation:metric-repetition","kind":"derived_from"},
+    {"id":"edge:metric-surface","from":"pattern:metric-slab","to":"primitive:surface","kind":"composes"},
+    {"id":"edge:metric-badge","from":"pattern:metric-slab","to":"primitive:signal-badge","kind":"composes"},
+    {"id":"edge:cluster-metric","from":"assembly:metric-cluster","to":"pattern:metric-slab","kind":"composes"},
+    {"id":"edge:hero-sticker","from":"composition:editorial-hero","to":"pattern:sticker-label","kind":"composes"},
+    {"id":"edge:hero-cluster","from":"composition:editorial-hero","to":"assembly:metric-cluster","kind":"composes"},
+    {"id":"edge:hero-button","from":"composition:editorial-hero","to":"primitive:physical-button","kind":"composes"},
+    {"id":"edge:sticker-color","from":"pattern:sticker-label","to":"token:semantic-color-role","kind":"uses_token"},
+    {"id":"edge:composition-test","from":"composition:editorial-hero","to":"test:composition-stack","kind":"validated_by"},
+    {"id":"edge:cluster-test","from":"assembly:metric-cluster","to":"test:composition-stack","kind":"validated_by"},
+    {"id":"edge:patterns-test","from":"pattern:metric-slab","to":"test:composition-stack","kind":"validated_by"}
   ]
 }

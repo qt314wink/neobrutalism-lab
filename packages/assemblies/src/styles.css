@@ -1,0 +1,6 @@
+.nb-metric-cluster {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
