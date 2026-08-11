@@ -29,9 +29,12 @@ export function PhysicalButton({
   onKeyUp,
   ...props
 }: PhysicalButtonProps) {
+  const [interactionState, setInteractionState] = useState<InteractionState>('rest');
   const restingState: InteractionState = selected ? 'selected' : 'rest';
-  const [interactionState, setInteractionState] = useState<InteractionState>(restingState);
-  const state: InteractionState = disabled ? 'disabled' : (previewState ?? interactionState);
+  const liveInteractionState = interactionState === 'rest' || interactionState === 'selected'
+    ? restingState
+    : interactionState;
+  const state: InteractionState = disabled ? 'disabled' : (previewState ?? liveInteractionState);
 
   return (
     <button
@@ -48,7 +51,7 @@ export function PhysicalButton({
         onMouseEnter?.(event);
       }}
       onMouseLeave={(event) => {
-        if (!disabled && previewState === undefined) setInteractionState(restingState);
+        if (!disabled && previewState === undefined) setInteractionState('rest');
         onMouseLeave?.(event);
       }}
       onMouseDown={(event) => {
@@ -64,7 +67,7 @@ export function PhysicalButton({
         onFocus?.(event);
       }}
       onBlur={(event) => {
-        if (!disabled && previewState === undefined) setInteractionState(restingState);
+        if (!disabled && previewState === undefined) setInteractionState('rest');
         onBlur?.(event);
       }}
       onKeyDown={(event) => {

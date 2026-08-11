@@ -1,5 +1,6 @@
 export { genesisCandidateSchema, genesisRequestSchema } from './schema';
 export type { GenesisCandidate, GenesisRequest } from './schema';
+export { candidateDigest } from './integrity';
 export { validateGenesisCandidate } from './validate';
 export {
   GenesisProviderError,

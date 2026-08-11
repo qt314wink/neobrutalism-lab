@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { Receipt } from '@neobrutalism-lab/contracts';
+import { candidateDigest } from './integrity';
 import type { GenesisCandidate } from './schema';
 import { GenesisProviderError } from './openai-provider';
 
@@ -17,8 +18,12 @@ export async function writeGenesisProposal(
   candidate: GenesisCandidate,
   receipt: Receipt,
 ): Promise<string[]> {
-  if (!receipt.accepted || receipt.subjectId !== candidate.id) {
-    throw new GenesisProviderError('rejected_candidate', 'Only a deterministically accepted candidate receipt may materialize proposal files.');
+  const currentDigest = candidateDigest(candidate);
+  if (!receipt.accepted || receipt.subjectId !== candidate.id || receipt.subjectDigest !== currentDigest) {
+    throw new GenesisProviderError(
+      'rejected_candidate',
+      'Only the exact deterministically accepted candidate bound to this receipt may materialize proposal files.',
+    );
   }
 
   const root = path.resolve(proposalRoot);

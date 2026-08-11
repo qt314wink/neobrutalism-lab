@@ -1,5 +1,6 @@
 import path from 'node:path';
 import type { Receipt, ValidationCheck } from '@neobrutalism-lab/contracts';
+import { candidateDigest } from './integrity';
 import { genesisCandidateSchema, genesisRequestSchema } from './schema';
 import type { GenesisCandidate, GenesisRequest } from './schema';
 
@@ -28,7 +29,7 @@ function uniqueFailures(values: readonly string[], label: string): string[] {
 
 function normalizeRelative(value: string): string | null {
   const slashValue = value.replaceAll('\\', '/');
-  if (slashValue.includes('\0') || slashValue.startsWith('/') || /^[A-Za-z]:\//u.test(slashValue)) return null;
+  if (slashValue.includes('\0') || slashValue.includes('\u0000') || slashValue.startsWith('/') || /^[A-Za-z]:\//u.test(slashValue)) return null;
   const normalized = path.posix.normalize(slashValue).replace(/^\.\//u, '');
   if (normalized === '..' || normalized.startsWith('../') || normalized === '.') return null;
   return normalized;
@@ -158,6 +159,7 @@ export function validateGenesisCandidate(requestInput: unknown, candidateInput: 
   return {
     id: `receipt:${candidate.id}`,
     subjectId: candidate.id,
+    subjectDigest: candidateDigest(candidate),
     checks,
     accepted: checks.every((item) => item.status === 'pass'),
   };

@@ -64,6 +64,7 @@ export interface ValidationCheck {
 export interface Receipt {
   id: string;
   subjectId: string;
+  subjectDigest?: string;
   checks: ValidationCheck[];
   accepted: boolean;
 }
