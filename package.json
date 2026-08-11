@@ -1,0 +1,50 @@
+{
+  "name": "neobrutalism-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.8",
+  "engines": {
+    "node": ">=22.13.0 <23"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "registry:check": "node scripts/validate-registry.mjs",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "genesis:fixture": "tsx packages/genesis/src/fixture-cli.ts",
+    "genesis": "tsx packages/genesis/src/cli.ts",
+    "validate": "npm run registry:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run storybook:build"
+  },
+  "dependencies": {
+    "openai": "7.1.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "10.5.5",
+    "@storybook/react-vite": "10.5.5",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "6.0.4",
+    "eslint": "10.8.0",
+    "jsdom": "30.0.1",
+    "storybook": "10.5.5",
+    "tsx": "4.22.5",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vite": "8.1.5",
+    "vitest": "4.1.10"
+  }
+}

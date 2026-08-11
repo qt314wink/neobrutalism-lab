@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "relationKinds": [
+    "depends_on",
+    "derived_from",
+    "implements",
+    "uses_token",
+    "composes",
+    "validated_by",
+    "constrained_by",
+    "optimizes",
+    "alternative_to"
+  ],
+  "nodes": [
+    {"id":"package:contracts","kind":"package","layer":"contracts","status":"accepted"},
+    {"id":"package:tokens","kind":"package","layer":"tokens","status":"accepted"},
+    {"id":"package:interaction","kind":"package","layer":"interaction","status":"accepted"},
+    {"id":"package:primitives","kind":"package","layer":"primitives","status":"accepted"},
+    {"id":"package:patterns","kind":"package","layer":"patterns","status":"accepted"},
+    {"id":"package:assemblies","kind":"package","layer":"assemblies","status":"accepted"},
+    {"id":"package:compositions","kind":"package","layer":"compositions","status":"accepted"},
+    {"id":"package:genesis","kind":"package","layer":"governance","status":"accepted"}
+  ],
+  "edges": [
+    {"id":"edge:tokens-contracts","from":"package:tokens","to":"package:contracts","kind":"depends_on"},
+    {"id":"edge:interaction-tokens","from":"package:interaction","to":"package:tokens","kind":"depends_on"},
+    {"id":"edge:primitives-interaction","from":"package:primitives","to":"package:interaction","kind":"depends_on"},
+    {"id":"edge:patterns-primitives","from":"package:patterns","to":"package:primitives","kind":"depends_on"},
+    {"id":"edge:assemblies-patterns","from":"package:assemblies","to":"package:patterns","kind":"depends_on"},
+    {"id":"edge:compositions-assemblies","from":"package:compositions","to":"package:assemblies","kind":"depends_on"},
+    {"id":"edge:genesis-contracts","from":"package:genesis","to":"package:contracts","kind":"depends_on"},
+    {"id":"edge:genesis-tokens","from":"package:genesis","to":"package:tokens","kind":"depends_on"}
+  ]
+}
