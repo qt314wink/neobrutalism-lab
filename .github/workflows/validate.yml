@@ -2,29 +2,35 @@ name: validate
 
 on:
   pull_request:
-  push:
-    branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           package-manager-cache: false
-      - name: Install dependencies (lockfile bootstrap only)
+      - name: Install and generate lockfile
         run: npm install --no-audit --no-fund
-      - name: Export bootstrap lockfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-lock-bootstrap
-          path: package-lock.json
-          if-no-files-found: error
-          retention-days: 1
+      - name: Commit bootstrap lockfile once
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "package-lock.json already committed"
+          else
+            git commit -m "build: lock bootstrap dependencies"
+            git push origin "HEAD:${HEAD_BRANCH}"
+          fi
       - name: Validate
         run: npm run validate
