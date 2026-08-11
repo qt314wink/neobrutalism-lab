@@ -18,6 +18,20 @@ describe('PhysicalButton', () => {
     expect(button).toHaveAttribute('aria-pressed', 'true');
     expect(button).toHaveAttribute('data-nb-state', 'disabled');
   });
+
+  it('synchronizes machine-readable selected state when selection changes after mount', () => {
+    const { rerender } = render(<PhysicalButton>Toggle selection</PhysicalButton>);
+    const button = screen.getByRole('button', { name: 'Toggle selection' });
+    expect(button).toHaveAttribute('data-nb-state', 'rest');
+
+    rerender(<PhysicalButton selected>Toggle selection</PhysicalButton>);
+    expect(button).toHaveAttribute('aria-pressed', 'true');
+    expect(button).toHaveAttribute('data-nb-state', 'selected');
+
+    rerender(<PhysicalButton>Toggle selection</PhysicalButton>);
+    expect(button).toHaveAttribute('aria-pressed', 'false');
+    expect(button).toHaveAttribute('data-nb-state', 'rest');
+  });
 });
 
 describe('Surface and SignalBadge', () => {

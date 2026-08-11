@@ -83,4 +83,17 @@ describe('proposal-only materialization', () => {
       await rm(root, { recursive: true, force: true });
     }
   });
+
+  it('refuses a stale accepted receipt when the candidate changes after validation', async () => {
+    const receipt = validateGenesisCandidate(request, candidate);
+    expect(receipt.accepted).toBe(true);
+    const mutated = structuredClone(candidate);
+    mutated.files[0].dependencies.push('@neobrutalism-lab/apps');
+    const root = await mkdtemp(path.join(tmpdir(), 'nb-genesis-stale-'));
+    try {
+      await expect(writeGenesisProposal(root, mutated, receipt)).rejects.toMatchObject({ code: 'rejected_candidate' });
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
 });

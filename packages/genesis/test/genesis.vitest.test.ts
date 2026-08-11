@@ -21,6 +21,14 @@ describe('validateGenesisCandidate', () => {
     expect(receipt.checks.some((check) => check.id === 'paths' && check.status === 'fail')).toBe(true);
   });
 
+  it('rejects NUL bytes in proposed file paths', () => {
+    const candidate = clone(validCandidate);
+    candidate.files[0].path = 'packages/patterns/src/\u0000Bad.tsx';
+    const receipt = validateGenesisCandidate(request, candidate);
+    expect(receipt.accepted).toBe(false);
+    expect(receipt.checks.some((check) => check.id === 'paths' && check.status === 'fail')).toBe(true);
+  });
+
   it('rejects candidates without at least two alternatives', () => {
     const candidate = clone(validCandidate);
     candidate.alternatives = [candidate.alternatives[0]];
