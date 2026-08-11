@@ -8,6 +8,7 @@
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "registry:check": "node scripts/validate-registry.mjs",
+    "boundaries:check": "node scripts/validate-boundaries.mjs",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
     "test": "npm run test:node && npm run test:ui",
@@ -18,7 +19,7 @@
     "storybook:build": "storybook build",
     "genesis:fixture": "tsx packages/genesis/src/fixture-cli.ts",
     "genesis": "tsx packages/genesis/src/cli.ts",
-    "validate": "npm run registry:check && npm run lint && npm run typecheck && npm run test && npm run genesis:fixture && npm run build && npm run storybook:build"
+    "validate": "npm run registry:check && npm run boundaries:check && npm run lint && npm run typecheck && npm run test && npm run genesis:fixture && npm run build && npm run storybook:build"
   },
   "dependencies": { "openai": "7.1.0", "react": "19.2.7", "react-dom": "19.2.7", "zod": "4.4.3" },
   "devDependencies": {
