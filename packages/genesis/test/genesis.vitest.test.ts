@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { validateGenesisCandidate } from '../src/index.ts';
 
-const request = JSON.parse(readFileSync(new URL('../fixtures/request.valid.json', import.meta.url), 'utf8'));
-const validCandidate = JSON.parse(readFileSync(new URL('../fixtures/candidate.valid.json', import.meta.url), 'utf8'));
+const request = JSON.parse(readFileSync('packages/genesis/fixtures/request.valid.json', 'utf8'));
+const validCandidate = JSON.parse(readFileSync('packages/genesis/fixtures/candidate.valid.json', 'utf8'));
 const clone = <T,>(value: T): T => structuredClone(value);
 
 describe('validateGenesisCandidate', () => {
@@ -47,9 +47,16 @@ describe('validateGenesisCandidate', () => {
     expect(receipt.checks.some((check) => check.id === 'evidence' && check.status === 'fail')).toBe(true);
   });
 
-  it('rejects unknown relationship endpoints and any direct-write mode', () => {
+  it('rejects unknown relationship endpoints', () => {
     const candidate = clone(validCandidate);
     candidate.relationships[0].to = 'pattern:unknown';
+    const receipt = validateGenesisCandidate(request, candidate);
+    expect(receipt.accepted).toBe(false);
+    expect(receipt.checks.some((check) => check.id === 'graph' && check.status === 'fail')).toBe(true);
+  });
+
+  it('rejects any direct-write mode at schema boundary', () => {
+    const candidate = clone(validCandidate);
     candidate.writeMode = 'direct';
     const receipt = validateGenesisCandidate(request, candidate);
     expect(receipt.accepted).toBe(false);
