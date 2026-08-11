@@ -6,7 +6,8 @@
     "declarationMap": true,
     "sourceMap": true,
     "rootDir": ".",
-    "outDir": ".build"
+    "outDir": ".build",
+    "types": ["node"]
   },
   "include": ["packages/**/*.ts", "packages/**/*.tsx"],
   "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/*.stories.tsx"]
