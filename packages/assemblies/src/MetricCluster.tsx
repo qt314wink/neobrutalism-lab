@@ -27,8 +27,8 @@ export function MetricCluster({ title, metrics, className = '' }: MetricClusterP
           key={metric.id}
           label={metric.label}
           value={metric.value}
-          detail={metric.detail}
-          tone={metric.tone}
+          {...(metric.detail === undefined ? {} : { detail: metric.detail })}
+          {...(metric.tone === undefined ? {} : { tone: metric.tone })}
         />
       ))}
     </section>

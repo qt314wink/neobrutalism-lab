@@ -22,4 +22,12 @@ export const Default: Story = {};
 export const WithMediaSlot: Story = {
   args: { mediaSlot: <Surface tone="identity">Media or interactive field slot</Surface> },
 };
-export const CopyOnly: Story = { args: { metrics: [], primaryAction: undefined } };
+export const CopyOnly: Story = {
+  render: () => (
+    <EditorialHero
+      eyebrow="Neobrutalism Lab"
+      title="Mechanisms before pages"
+      summary="Copy remains a valid composition without actions or metrics."
+    />
+  ),
+};
