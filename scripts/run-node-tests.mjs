@@ -8,14 +8,18 @@ async function collect(directory) {
   for (const entry of entries) {
     const target = path.join(directory, entry.name);
     if (entry.isDirectory()) files.push(...await collect(target));
-    else if (entry.name.endsWith('.node.test.ts')) files.push(target);
+    else if (entry.name.endsWith('.node.test.ts') || entry.name.endsWith('.test.mjs')) files.push(target);
   }
-  return files.sort();
+  return files;
 }
 
-const files = await collect('packages');
+const files = [
+  ...await collect('packages'),
+  ...await collect('scripts'),
+].sort();
+
 if (files.length === 0) {
-  console.error('node-tests:error no .node.test.ts files found');
+  console.error('node-tests:error no Node test files found');
   process.exit(1);
 }
 const result = spawnSync(process.execPath, ['--experimental-strip-types', '--test', ...files], { stdio: 'inherit' });
