@@ -101,7 +101,7 @@ Primary input: `scroll progress + scroll velocity`.
 
 Secondary optional input: `touch position / drag`.
 
-Scrolling through the hero advances the field through three phases:
+Scrolling through the hero advances the field through three visual phases. These phases are not additional state-machine modes; they are continuous visual regions derived from scroll progress and energy.
 
 #### Phase 0 — REST
 
@@ -113,9 +113,9 @@ Scrolling increases field energy. Typography expands/deforms. Color separation a
 
 #### Phase 2 — RESOLVE
 
-As the hero exits the viewport, distortion collapses toward a clean readable configuration.
+As the hero exits the viewport, distortion collapses toward a clean readable configuration and the controller transitions through `SETTLING` back to `REST`.
 
-Rapid scrolling affects velocity but must not permanently alter state. A touch/drag temporarily introduces a local disturbance into the field. Touch release returns control to scroll-derived state.
+Rapid scrolling affects velocity but must not permanently alter state. A touch/drag may temporarily introduce a local disturbance into the field. If implemented, touch release returns control to scroll-derived state.
 
 ## Shared interaction state
 
@@ -274,7 +274,7 @@ Test deterministic functions including:
 - `mapStateToTypography()`
 - `mapStateToUniforms()`
 
-Test bounds, clamping, zero-input REST state, pointer transition, scroll transition, touch precedence, settling, reduced-motion behavior, extreme velocity, and resize normalization.
+Test bounds, clamping, zero-input REST state, pointer transition, scroll transition, touch precedence if touch is implemented, settling, reduced-motion behavior, extreme velocity, and resize normalization.
 
 Freeze time/seed anywhere procedural output is tested. Do not snapshot arbitrary live shader frames.
 
@@ -305,7 +305,7 @@ Desktop scenario:
 
 Mobile scenario:
 
-`REST -> scroll hero -> SCROLL_ACTIVE -> increased energy -> hero exit -> RESOLVE -> REST`
+`REST -> scroll hero -> SCROLL_ACTIVE -> rising energy -> decreasing energy as hero exits -> SETTLING -> REST`
 
 Also verify:
 
@@ -426,7 +426,7 @@ The specimen is complete when:
 - real-browser Cypress tests pass;
 - pointer interaction works on desktop;
 - scroll-primary interaction works on mobile;
-- optional touch disturbance works without hijacking scroll;
+- if implemented, touch disturbance works without hijacking scroll;
 - shader and typography demonstrably share one state model;
 - reduced-motion path works;
 - fallback works;
