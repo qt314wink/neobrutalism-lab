@@ -13,8 +13,22 @@ The repository boundary is the **system**, not a single brand demo. The first ex
 ## Validation
 
 ```bash
-npm install
+npm ci
 npm run validate
 ```
 
 Validation runs lint, TypeScript checking, behavior tests, and production build.
+
+## Foundation release gate
+
+Foundation work ships before new specimen work starts. A foundation pull request is
+ready to leave draft only when all of the following are true:
+
+1. The branch is conflict-free with `main` and required checks are current.
+2. `npm ci` and `npm run validate` pass from a clean checkout.
+3. The deployed preview has been reviewed at desktop and mobile widths.
+4. The traceability contract remains intact for every affected specimen.
+5. After merge, the production deployment is healthy before the next workstream begins.
+
+See [`docs/release-gates.md`](docs/release-gates.md) for the reconciliation and
+production-verification procedure.
