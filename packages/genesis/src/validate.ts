@@ -36,9 +36,13 @@ function normalizeRelative(value: string): string | null {
 }
 
 function pathFailures(request: GenesisRequest, candidate: GenesisCandidate): string[] {
-  const roots = request.allowedWriteRoots.map((root) => ({ raw: root, normalized: normalizeRelative(root) }));
+  const roots = request.allowedWriteRoots.map((root) => {
+    const normalized = normalizeRelative(root);
+    return { raw: root, normalized: normalized?.replace(/\/+$/u, '') || normalized };
+  });
   const failures = roots.filter((root) => root.normalized === null).map((root) => `unsafe allowed root: ${root.raw}`);
-  failures.push(...uniqueFailures(candidate.files.map((file) => file.path), 'file path'));
+  const normalizedPaths = candidate.files.map((file) => normalizeRelative(file.path)).filter((value): value is string => value !== null);
+  failures.push(...uniqueFailures(normalizedPaths, 'normalized file path'));
 
   for (const file of candidate.files) {
     const normalized = normalizeRelative(file.path);
@@ -52,9 +56,36 @@ function pathFailures(request: GenesisRequest, candidate: GenesisCandidate): str
   return failures;
 }
 
+function importedDependencies(content: string): string[] {
+  const dependencies = new Set<string>();
+  const patterns = [
+    /(?:import|export)\\s+(?:[^'";]*?\\s+from\\s+)?['"]([^'"]+)['"]/gu,
+    /(?:import|require)\\(\\s*['"]([^'"]+)['"]\\s*\\)/gu,
+  ];
+  for (const pattern of patterns) {
+    for (const match of content.matchAll(pattern)) {
+      const specifier = match[1];
+      if (!specifier || specifier.startsWith('.') || specifier.startsWith('/') || specifier.startsWith('node:')) continue;
+      dependencies.add(specifier.startsWith('@') ? specifier.split('/').slice(0, 2).join('/') : specifier.split('/')[0] ?? specifier);
+    }
+  }
+  return [...dependencies];
+}
+
 function dependencyFailures(request: GenesisRequest, candidate: GenesisCandidate): string[] {
   const allowed = new Set(request.allowedDependencies);
-  return candidate.files.flatMap((file) => file.dependencies.filter((dependency) => !allowed.has(dependency)).map((dependency) => `${file.path} uses undeclared dependency ${dependency}`));
+  const failures: string[] = [];
+  for (const file of candidate.files) {
+    const declared = new Set(file.dependencies);
+    for (const dependency of file.dependencies) {
+      if (!allowed.has(dependency)) failures.push(`${file.path} uses disallowed dependency ${dependency}`);
+    }
+    for (const dependency of importedDependencies(file.content)) {
+      if (!declared.has(dependency)) failures.push(`${file.path} imports undeclared dependency ${dependency}`);
+      if (!allowed.has(dependency)) failures.push(`${file.path} imports disallowed dependency ${dependency}`);
+    }
+  }
+  return failures;
 }
 
 function evidenceFailures(request: GenesisRequest, candidate: GenesisCandidate): string[] {
