@@ -4,9 +4,11 @@ A governed design-system and experimental web lab for turning Neo-Brutalist obse
 
 The repository is intentionally **system-first**. Product pages do not define the primitives. Proven primitives, patterns, assemblies, and compositions become the vocabulary product tracks are allowed to consume.
 
+The first executable downstream reference is **Specimen 001 — BOLD_CO / Cyber-Editorial Neo-Brutalism** in `apps/bold-co`.
+
 ## Foundation status
 
-The governed foundation is implemented on `foundation/governed-system-bootstrap` and reviewed through draft PR #3.
+The governed foundation and the BOLD_CO application are integrated in one workspace. Foundation capabilities remain independently validated before application deployment.
 
 Accepted capabilities:
 
@@ -25,7 +27,7 @@ Accepted capabilities:
 - SHA-256 binding between accepted Genesis receipts and the exact candidate they validated;
 - proposal-only materialization under `.genesis/proposals`.
 
-No BOLD_CO application reconstruction is included in this foundation branch. BOLD_CO is the first downstream product track after review/merge.
+`apps/bold-co` preserves Home, Company Info/locator/gallery/reviews, Journal + article dialog, and a browser-local CMS. Bootstrap intentionally has no server CMS, authentication, database, or user accounts.
 
 ## Architecture
 
@@ -276,4 +278,8 @@ A successful one-screen aesthetic is not sufficient evidence for promotion.
 
 ## Downstream track: BOLD_CO
 
-After this foundation closes, the existing BOLD_CO Specimen 001 plan becomes a **consumer** of the system instead of a source of local abstractions. The next application work should inventory the supplied prototype, map its local states to these packages, add only genuinely missing isolates through the same promotion process, and then compose pages/routes/features from accepted layers.
+BOLD_CO is a **consumer** of the governed system instead of a source of local abstractions. Further application work should map local states to accepted packages, add genuinely missing isolates through the same promotion process, and compose pages, routes, and features from accepted layers.
+
+The integrated traceability contract is:
+
+`observation → named mechanism → semantic token → primitive/helper → component → specimen → test → deployed evidence`

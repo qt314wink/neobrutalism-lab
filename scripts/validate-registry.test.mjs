@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { validateRegistry } from './validate-registry.mjs';
+import { canonicalRelationKinds, validateRegistry } from './validate-registry.mjs';
 
 const valid = {
-  relationKinds: ['depends_on'],
+  relationKinds: canonicalRelationKinds,
   nodes: [
     { id: 'a', kind: 'package', layer: 'contracts', status: 'accepted' },
     { id: 'b', kind: 'package', layer: 'tokens', status: 'accepted' },
