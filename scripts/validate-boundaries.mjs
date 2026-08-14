@@ -40,6 +40,7 @@ function normalizeImport(item) {
 export function validateBoundaryModel(model) {
   const errors = [];
   for (const pkg of model.packages ?? []) {
+    if (!packageLayers.has(pkg.name) && pkg.name !== 'apps') errors.push(`unknown source layer ${pkg.name}`);
     for (const dependency of pkg.manifestDependencies ?? []) {
       const target = targetNameFromSpecifier(dependency);
       if (target === null) continue;
@@ -114,7 +115,10 @@ export async function readRepositoryBoundaryModel(root = '.') {
   for (const entry of packageEntries) {
     if (!entry.isDirectory()) continue;
     const layer = entry.name;
-    if (!packageLayers.has(layer)) continue;
+    if (!packageLayers.has(layer)) {
+      records.push({ name: layer, manifestDependencies: [], imports: [] });
+      continue;
+    }
     records.push(await packageBoundaryRecord(path.join(root, 'packages', layer), layer));
   }
 
