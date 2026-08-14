@@ -54,6 +54,6 @@ export async function writeGenesisProposal(
 
 export function proposalDirectoryName(candidateId: string): string {
   const safe = candidateId.replace(/[^A-Za-z0-9._-]+/gu, '_').replace(/^_+|_+$/gu, '');
-  if (!safe) throw new GenesisProviderError('rejected_candidate', 'Candidate ID cannot produce an empty proposal directory name.');
+  if (!safe || safe === '.' || safe === '..') throw new GenesisProviderError('rejected_candidate', 'Candidate ID cannot produce an unsafe proposal directory name.');
   return safe;
 }
