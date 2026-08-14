@@ -1,0 +1,42 @@
+{
+  "id": "genesis-candidate:metric-rail:v1",
+  "requestId": "genesis-request:metric-rail",
+  "writeMode": "proposal_only",
+  "requestContext": {
+    "problem": "Dense evidence dashboards need a compact way to compare repeated metrics without losing label identity.",
+    "painPoint": "Ad hoc metric cards repeat arbitrary spacing and color choices, making comparison and future reuse inconsistent."
+  },
+  "summary": "Compose existing metric slabs into a compact horizontal rail while preserving each label and semantic tone.",
+  "assumptions": ["The rail remains domain-neutral and receives metric data through props."],
+  "alternatives": [
+    { "id": "alternative:grid", "title": "Responsive grid", "description": "Reuse MetricCluster without a new pattern.", "tradeoffs": ["Less compact", "Already validated"] },
+    { "id": "alternative:rail", "title": "Horizontal rail", "description": "Create a bounded pattern optimized for side-by-side scanning.", "tradeoffs": ["Adds one pattern", "Better narrow comparison"] }
+  ],
+  "decisions": [
+    { "id": "decision:rail", "decision": "Use a horizontal wrapping rail of existing MetricSlab instances.", "observationRefs": ["observation:metric-repetition"], "alternativeRefs": ["alternative:grid", "alternative:rail"], "rationaleSummary": "The repeated-label observation favors preserving MetricSlab as the identity-bearing unit while changing only the arrangement." }
+  ],
+  "nodes": [
+    { "id": "pattern:metric-rail", "kind": "pattern", "layer": "patterns", "status": "candidate", "label": "Metric rail proposal" },
+    { "id": "test:metric-rail", "kind": "test", "layer": "patterns", "status": "candidate", "label": "Metric rail proposal tests" }
+  ],
+  "files": [
+    { "path": "packages/patterns/src/MetricRail.tsx", "purpose": "Compose MetricSlab instances into a compact reusable rail.", "content": "export const MetricRail = () => null;", "dependencies": ["react", "@neobrutalism-lab/patterns"], "observationRefs": ["observation:metric-repetition"] },
+    { "path": "packages/patterns/src/MetricRail.vitest.test.tsx", "purpose": "Verify label identity and composition contract.", "content": "// proposal test", "dependencies": ["react", "@neobrutalism-lab/patterns"], "observationRefs": ["observation:metric-repetition"] }
+  ],
+  "tests": [
+    { "id": "test-plan:identity", "name": "metric identity", "kind": "component", "spec": "Render three metrics and query each group by label.", "constraintRefs": ["constraint:a11y"], "benchmarkRefs": ["benchmark:identity"] },
+    { "id": "test-plan:repo", "name": "repository validation", "kind": "integration", "spec": "Run npm run validate after materialization in isolation.", "constraintRefs": ["constraint:layer"], "benchmarkRefs": ["benchmark:validation"] }
+  ],
+  "qaChecks": [
+    { "id": "qa:layer", "spec": "Inspect imports and reject upward-layer dependencies.", "constraintRefs": ["constraint:layer"], "benchmarkRefs": ["benchmark:validation"] },
+    { "id": "qa:a11y", "spec": "Verify every metric exposes its supplied label programmatically.", "constraintRefs": ["constraint:a11y"], "benchmarkRefs": ["benchmark:identity"] }
+  ],
+  "relationships": [
+    { "id": "edge:metric-rail-slab", "from": "pattern:metric-rail", "to": "pattern:metric-slab", "kind": "composes" },
+    { "id": "edge:metric-rail-test", "from": "pattern:metric-rail", "to": "test:metric-rail", "kind": "validated_by" }
+  ],
+  "risks": [
+    { "id": "risk:overflow", "statement": "Long values may overflow compact rails.", "mitigation": "Add stress stories before promotion." }
+  ],
+  "openQuestions": ["Should the rail wrap or scroll at extremely narrow widths?"]
+}

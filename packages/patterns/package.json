@@ -1,0 +1,12 @@
+{
+  "name": "@neobrutalism-lab/patterns",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@neobrutalism-lab/primitives": "0.1.0",
+    "@neobrutalism-lab/tokens": "0.1.0"
+  },
+  "peerDependencies": { "react": "19.2.7" }
+}

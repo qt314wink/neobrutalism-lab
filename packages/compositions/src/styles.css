@@ -1,0 +1,37 @@
+@import '@neobrutalism-lab/tokens/tokens.css';
+
+.nb-editorial-hero {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 5vw, 5rem);
+  background: var(--nb-color-paper);
+  color: var(--nb-color-ink);
+}
+
+.nb-editorial-hero__copy {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  max-width: 70rem;
+}
+
+.nb-editorial-hero h1 {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(2.75rem, 10vw, 8rem);
+  line-height: 0.82;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+}
+
+.nb-editorial-hero p {
+  margin: 0;
+  max-width: 58ch;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+}
+
+.nb-editorial-hero__media,
+.nb-editorial-hero__after {
+  min-width: 0;
+}
