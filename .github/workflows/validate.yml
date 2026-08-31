@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -16,6 +19,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
+      - run: npm ci
+      - run: npm run validate
           cache: npm
           cache-dependency-path: package-lock.json
       - name: Install locked dependencies
