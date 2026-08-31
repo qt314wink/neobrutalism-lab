@@ -1,0 +1,14 @@
+{
+  "name": "@neobrutalism-lab/compositions",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@neobrutalism-lab/assemblies": "0.1.0",
+    "@neobrutalism-lab/patterns": "0.1.0",
+    "@neobrutalism-lab/primitives": "0.1.0",
+    "@neobrutalism-lab/tokens": "0.1.0"
+  },
+  "peerDependencies": { "react": "19.2.7" }
+}

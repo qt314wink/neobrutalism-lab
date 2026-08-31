@@ -1,0 +1,21 @@
+{
+  "id": "genesis-request:metric-rail",
+  "problem": "Dense evidence dashboards need a compact way to compare repeated metrics without losing label identity.",
+  "painPoint": "Ad hoc metric cards repeat arbitrary spacing and color choices, making comparison and future reuse inconsistent.",
+  "target": { "kind": "pattern", "name": "MetricRail" },
+  "observations": [
+    { "id": "observation:metric-repetition", "statement": "Repeated metrics need stable identity before they can form a responsive cluster.", "evidence": ["registry:pattern:metric-slab"] },
+    { "id": "observation:physical-offset-causality", "statement": "Translation must remain coupled to visible shadow depth.", "evidence": ["mechanism:physical-offset"] }
+  ],
+  "constraints": [
+    { "id": "constraint:layer", "statement": "The artifact may compose primitives and patterns but may not import from assemblies, compositions, or apps." },
+    { "id": "constraint:a11y", "statement": "Every metric must preserve a programmatic label." }
+  ],
+  "benchmarks": [
+    { "id": "benchmark:identity", "statement": "All fixture metrics remain queryable by label.", "measure": "component test passes for three labels" },
+    { "id": "benchmark:validation", "statement": "Repository validation remains green.", "measure": "npm run validate exits 0" }
+  ],
+  "allowedDependencies": ["react", "@neobrutalism-lab/primitives", "@neobrutalism-lab/patterns", "@neobrutalism-lab/tokens"],
+  "allowedWriteRoots": ["packages/patterns/src"],
+  "knownSystemNodes": ["pattern:metric-slab", "primitive:surface", "token:semantic-color-role", "test:composition-stack"]
+}

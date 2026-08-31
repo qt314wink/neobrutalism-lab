@@ -1,0 +1,44 @@
+@import '@neobrutalism-lab/tokens/tokens.css';
+
+.nb-sticker-label {
+  --nb-tone: var(--nb-color-attention);
+  display: inline-block;
+  border: var(--nb-border-control) solid var(--nb-color-ink);
+  background: var(--nb-tone);
+  box-shadow: 3px 3px 0 var(--nb-shadow-ink);
+  padding: 0.3rem 0.55rem;
+  color: var(--nb-color-ink);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.nb-sticker-label[data-nb-tone='paper'] { --nb-tone: var(--nb-color-paper); }
+.nb-sticker-label[data-nb-tone='action'] { --nb-tone: var(--nb-color-action); }
+.nb-sticker-label[data-nb-tone='info'] { --nb-tone: var(--nb-color-info); }
+.nb-sticker-label[data-nb-tone='attention'] { --nb-tone: var(--nb-color-attention); }
+.nb-sticker-label[data-nb-tone='identity'] { --nb-tone: var(--nb-color-identity); }
+.nb-sticker-label[data-nb-tone='critical'] { --nb-tone: var(--nb-color-critical); }
+.nb-sticker-label[data-nb-rotation='-2'] { transform: rotate(-2deg); }
+.nb-sticker-label[data-nb-rotation='-1'] { transform: rotate(-1deg); }
+.nb-sticker-label[data-nb-rotation='0'] { transform: rotate(0); }
+.nb-sticker-label[data-nb-rotation='1'] { transform: rotate(1deg); }
+.nb-sticker-label[data-nb-rotation='2'] { transform: rotate(2deg); }
+
+.nb-metric-slab {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nb-metric-slab__value {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.nb-metric-slab__detail {
+  font-size: 0.875rem;
+  font-weight: 700;
+}

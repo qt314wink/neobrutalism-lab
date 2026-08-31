@@ -1,6 +1,12 @@
 node_modules/
+.build/
+storybook-static/
 dist/
 coverage/
 .vercel/
+.env
+.env.*
+!.env.example
+.genesis/proposals/
 .DS_Store
 *.local

@@ -1,0 +1,19 @@
+:root,
+[data-nb-dialect='bold-co'] {
+  --nb-color-ink: #000000;
+  --nb-color-paper: #f4f0ea;
+  --nb-color-action: #a2ff00;
+  --nb-color-info: #00e5ff;
+  --nb-color-attention: #ff007a;
+  --nb-color-identity: #ffe600;
+  --nb-color-critical: #ff3b30;
+  --nb-border-control: 2px;
+  --nb-border-structural: 3px;
+  --nb-border-emphasis: 4px;
+  --nb-shadow-base: 4px;
+  --nb-shadow-strong: 8px;
+  --nb-shadow-ink: #000000;
+  --nb-motion-snap: 80ms;
+  --nb-motion-shove: 120ms;
+  --nb-motion-reveal: 180ms;
+}
