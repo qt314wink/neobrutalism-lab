@@ -104,6 +104,7 @@ The dependency rule is executable, not just documentation:
 ```bash
 npm ci
 npm run validate
+npm run boundaries:check
 ```
 
 Validation runs lint, TypeScript checking, behavior tests, and production build.
@@ -121,8 +122,6 @@ ready to leave draft only when all of the following are true:
 
 See [`docs/release-gates.md`](docs/release-gates.md) for the reconciliation and
 production-verification procedure.
-npm run boundaries:check
-```
 
 The validator scans workspace manifests and real source imports. Standard UI layers may consume only themselves or lower layers. `genesis` may consume only `contracts` and `tokens`; UI/runtime packages may not consume `genesis`. Unknown internal packages and upward imports fail validation with file/package evidence.
 
